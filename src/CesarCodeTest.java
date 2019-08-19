@@ -14,26 +14,26 @@ public class CesarCodeTest {
                 switch (choice) {
                     case 1:
                         cesar = getUserInput(in);
-                        System.out.println(cesar.getOrginalMessage());
-                        System.out.println(cesar.encrypt());
+                        System.out.println(printOrginalMessage() + cesar.getOriginalMessage());
+                        System.out.println("Zaszyfrowana wiadomość: " + cesar.encrypt());
                         break;
                     case 2:
                         cesar = getUserInput(in);
-                        System.out.println(cesar.getOrginalMessage());
-                        System.out.println(cesar.decrypt());
+                        System.out.println(printOrginalMessage() + cesar.getOriginalMessage());
+                        System.out.println("Zdeszyfrowana wiadomość: " + cesar.decrypt());
                         break;
                     case 0:
                         isExit = true;
                         break;
                     default:
-                        throw new InputMismatchException("Podaj poprawną wartość!");
+                        throw new IllegalArgumentException("Podaj poprawną wartość!");
                 }
             } catch (InputMismatchException e){
+                System.out.println("Wprowadzono nie właściwy typ danych wejściowych");
+            } catch (IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
         }while (!isExit);
-
-
     }
 
     private static CesarCode getUserInput(Scanner in) {
@@ -45,6 +45,9 @@ public class CesarCodeTest {
         return new CesarCode(message, vector);
     }
 
+    private static String printOrginalMessage(){
+        return "Orginalna wiadomość: ";
+    }
 
     private static String printMenu(){
         return "Menu: \nWciśnij 1. aby zaszyfrować wiadomość,\n" +

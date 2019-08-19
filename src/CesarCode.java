@@ -1,61 +1,58 @@
-import java.util.InputMismatchException;
-
 public class CesarCode {
     private static final String ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ";
     private static final int ALPHABET_LENGTH = ALPHABET.length();
-    private String orginalMessage;
+    private String originalMessage;
     private int vector;
 
-    public CesarCode(String orginalMessage, int vector) {
-        this.orginalMessage = orginalMessage.toUpperCase();
+    public CesarCode(String originalMessage, int vector) {
+        this.originalMessage = originalMessage.toUpperCase();
         if(vector < 1){
-            throw new InputMismatchException("Przesunięcie nie może być mniejsze od 1");
+            throw new IllegalArgumentException("Przesunięcie nie może być mniejsze od 1");
         }
         this.vector = vector;
     }
 
-    public String getOrginalMessage() {
-        return "Orginalna wiadomość: " + orginalMessage;
+    public String getOriginalMessage() {
+        return originalMessage;
     }
 
     public String encrypt(){
         String newMessage = "";
-        for(int i = 0; i < orginalMessage.length(); i++){
-            char checkedChar = orginalMessage.charAt(i);
+        for(int i = 0; i < originalMessage.length(); i++){
+            char checkedChar = originalMessage.charAt(i);
+            int shiftedIndex;
             if(Character.isLetter(checkedChar)){
-                int index = ALPHABET.indexOf(checkedChar);
-                if((index + vector)< ALPHABET_LENGTH){
-                    newMessage += ALPHABET.charAt(index + vector);
+                shiftedIndex = (ALPHABET.indexOf(checkedChar) + vector)% ALPHABET_LENGTH;
+                if(shiftedIndex < ALPHABET_LENGTH){
+                    newMessage += ALPHABET.charAt(shiftedIndex);
                 } else {
-                    //multiply by -1 to make count an positive number
-                    int count = (ALPHABET_LENGTH - index - vector)*(-1);
-                    newMessage += ALPHABET.charAt(count);
+                    shiftedIndex -= ALPHABET_LENGTH;
+                    newMessage += ALPHABET.charAt(shiftedIndex);
                 }
             }else {
-                newMessage += orginalMessage.charAt(i);
+                newMessage += originalMessage.charAt(i);
             }
         }
-        return "Zaszyfrowana wiadomość: " + newMessage;
+        return newMessage;
     }
 
     public String decrypt(){
         String newMessage = "";
-        for(int i = 0; i < orginalMessage.length(); i++){
-            char checkedChar = orginalMessage.charAt(i);
+        for(int i = 0; i < originalMessage.length(); i++){
+            char checkedChar = originalMessage.charAt(i);
+            int shiftedIndex;
             if(Character.isLetter(checkedChar)){
-                int index = ALPHABET.indexOf(checkedChar);
-                if((index - vector) >= 0){
-                    newMessage += ALPHABET.charAt(index - vector);
+                shiftedIndex = (ALPHABET.indexOf(checkedChar) - vector) % ALPHABET_LENGTH;
+                if((shiftedIndex) >= 0){
+                    newMessage += ALPHABET.charAt(shiftedIndex);
                 } else {
-                    //multiply by -1 to make count an positive number
-                    int count = ALPHABET_LENGTH - (index - vector) *(-1);
-                    newMessage += ALPHABET.charAt(count);
+                    shiftedIndex += ALPHABET_LENGTH;
+                    newMessage += ALPHABET.charAt(shiftedIndex);
                 }
             }else {
-                newMessage += orginalMessage.charAt(i);
+                newMessage += originalMessage.charAt(i);
             }
         }
-        return "Zdeszyfrowana wiadomość: " + newMessage;
+        return newMessage;
     }
-
 }
