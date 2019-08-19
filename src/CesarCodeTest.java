@@ -26,7 +26,7 @@ public class CesarCodeTest {
                         isExit = true;
                         break;
                     default:
-                        throw new IllegalArgumentException("Podaj poprawną wartość!");
+                        System.out.println("Podaj poprawną wartość!");
                 }
             } catch (InputMismatchException e){
                 System.out.println("Wprowadzono nie właściwy typ danych wejściowych");

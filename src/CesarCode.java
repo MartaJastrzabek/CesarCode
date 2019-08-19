@@ -1,6 +1,5 @@
 public class CesarCode {
     private static final String ALPHABET = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ";
-    private static final int ALPHABET_LENGTH = ALPHABET.length();
     private String originalMessage;
     private int vector;
 
@@ -22,13 +21,12 @@ public class CesarCode {
             char checkedChar = originalMessage.charAt(i);
             int shiftedIndex;
             if(Character.isLetter(checkedChar)){
-                shiftedIndex = (ALPHABET.indexOf(checkedChar) + vector)% ALPHABET_LENGTH;
-                if(shiftedIndex < ALPHABET_LENGTH){
-                    newMessage += ALPHABET.charAt(shiftedIndex);
-                } else {
-                    shiftedIndex -= ALPHABET_LENGTH;
-                    newMessage += ALPHABET.charAt(shiftedIndex);
+                int index = ALPHABET.indexOf(checkedChar) + vector;
+                if(ALPHABET.length() < index){
+                    index -= 32;
                 }
+                shiftedIndex = index % ALPHABET.length();
+                newMessage += ALPHABET.charAt(shiftedIndex);
             }else {
                 newMessage += originalMessage.charAt(i);
             }
@@ -42,13 +40,12 @@ public class CesarCode {
             char checkedChar = originalMessage.charAt(i);
             int shiftedIndex;
             if(Character.isLetter(checkedChar)){
-                shiftedIndex = (ALPHABET.indexOf(checkedChar) - vector) % ALPHABET_LENGTH;
-                if((shiftedIndex) >= 0){
-                    newMessage += ALPHABET.charAt(shiftedIndex);
-                } else {
-                    shiftedIndex += ALPHABET_LENGTH;
-                    newMessage += ALPHABET.charAt(shiftedIndex);
+                int index = ALPHABET.indexOf(checkedChar) - vector;
+                if(index < 0){
+                    index += 32;
                 }
+                shiftedIndex = index % ALPHABET.length();
+                newMessage += ALPHABET.charAt(shiftedIndex);
             }else {
                 newMessage += originalMessage.charAt(i);
             }
